@@ -55,7 +55,7 @@ export function AppSidebar() {
     { title: "Schedule", icon: Calendar, path: "/dashboard/schedule" },
     { title: "Attendance", icon: ClipboardCheck, path: "/dashboard/attendance" },
     { title: "Notifications", icon: Bell, path: "/dashboard/notifications" },
-    { title: "Assistant", icon: MessageSquare
+    { title: "Assistant", icon: MessageSquare ,
  /
 , path: "/dashboard/assistant" },
     { title: "Settings", icon: Settings, path: "/dashboard/settings" },
@@ -66,7 +66,7 @@ export function AppSidebar() {
     { title: "Schedule", icon: Calendar, path: "/dashboard/schedule" },
     { title: "Attendance", icon: ClipboardCheck, path: "/dashboard/attendance" },
     { title: "Notifications", icon: Bell, path: "/dashboard/notifications" },
-    { title: "Assistant", icon: MessageSquare
+    { title: "Assistant", icon: MessageSquare ,
  /
 , path: "/dashboard/assistant" },
   ]

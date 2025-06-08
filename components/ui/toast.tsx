@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-<<<<<<< HEAD
 import * as ToastPrimitives from "@radix-ui/react-toast"
 import { cva, type VariantProps } from "class-variance-authority"
 import { X } from "lucide-react"
@@ -127,20 +126,4 @@ export {
   ToastDescription,
   ToastClose,
   ToastAction,
-=======
-
-type ToastProps = {
-  title?: string
-  description?: string
-  variant?: "default" | "destructive"
-}
-
-export function useToast() {
-  const toast = React.useCallback(({ title, description, variant = "default" }: ToastProps) => {
-    // Simple console log for demo - in real app you'd use a proper toast library
-    console.log(`Toast: ${title} - ${description} (${variant})`)
-  }, [])
-
-  return { toast }
->>>>>>> c9fe30550c3a62256f8582dada57c1b844eb0af0
 }

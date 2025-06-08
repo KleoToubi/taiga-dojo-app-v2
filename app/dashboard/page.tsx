@@ -1,140 +1,142 @@
 "use client"
-<<<<<<< HEAD
 
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Users, Calendar, Award, TrendingUp } from "lucide-react"
 
 export default function DashboardPage() {
   const [currentUser, setCurrentUser] = useState<any>(null)
-=======
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { useToast } from "@/components/ui/use-toast"
-import { useLanguage } from "@/contexts/language-context"
-import { InstructorDashboard } from "@/components/instructor-dashboard"
-import { StudentDashboard } from "@/components/student-dashboard"
-
-export default function Dashboard() {
-  const [currentUser, setCurrentUser] = useState<any>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const router = useRouter()
-  const { toast } = useToast()
-  const { t } = useLanguage()
->>>>>>> c9fe30550c3a62256f8582dada57c1b844eb0af0
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     const userData = localStorage.getItem("currentUser")
     if (userData) {
       setCurrentUser(JSON.parse(userData))
-<<<<<<< HEAD
     }
   }, [])
 
-  if (!currentUser) {
+  if (!mounted) {
     return <div>Loading...</div>
   }
+
+  const stats = [
+    {
+      title: "Total Students",
+      value: "42",
+      description: "Active members",
+      icon: Users,
+    },
+    {
+      title: "Classes This Week",
+      value: "12",
+      description: "Scheduled sessions",
+      icon: Calendar,
+    },
+    {
+      title: "Belt Promotions",
+      value: "5",
+      description: "This month",
+      icon: Award,
+    },
+    {
+      title: "Attendance Rate",
+      value: "87%",
+      description: "Average this month",
+      icon: TrendingUp,
+    },
+  ]
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Welcome back, {currentUser.name}!</h1>
-        <p className="text-gray-600">
-          {currentUser.category === "instructor" ? "Instructor Dashboard" : "Student Dashboard"}
-        </p>
+        <h1 className="text-3xl font-bold">Welcome back, {currentUser?.name || "Student"}!</h1>
+        <p className="text-gray-500">Here's what's happening at Taiga Dojo today.</p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle>Profile</CardTitle>
-            <CardDescription>Your profile information</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <p>
-                <strong>Name:</strong> {currentUser.name}
-              </p>
-              <p>
-                <strong>ID:</strong> {currentUser.id}
-              </p>
-              <p>
-                <strong>Category:</strong> {currentUser.category}
-              </p>
-              <p>
-                <strong>Belt:</strong> {currentUser.belt}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((stat) => {
+          const Icon = stat.icon
+          return (
+            <Card key={stat.title}>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
+                <Icon className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stat.value}</div>
+                <p className="text-xs text-muted-foreground">{stat.description}</p>
+              </CardContent>
+            </Card>
+          )
+        })}
+      </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Stats</CardTitle>
-            <CardDescription>Your progress overview</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <p>Classes attended: 15</p>
-              <p>Current belt: {currentUser.belt}</p>
-              <p>Next grading: In 2 months</p>
-            </div>
-          </CardContent>
-        </Card>
-
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
             <CardTitle>Recent Activity</CardTitle>
-            <CardDescription>Your latest activities</CardDescription>
+            <CardDescription>Latest updates from the dojo</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2">
-              <p>• Attended class on Monday</p>
-              <p>• Completed kata practice</p>
-              <p>• Updated profile</p>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-4">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <div>
+                  <p className="text-sm font-medium">New student enrolled</p>
+                  <p className="text-xs text-gray-500">2 hours ago</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                <div>
+                  <p className="text-sm font-medium">Class schedule updated</p>
+                  <p className="text-xs text-gray-500">5 hours ago</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                <div>
+                  <p className="text-sm font-medium">Belt promotion ceremony</p>
+                  <p className="text-xs text-gray-500">1 day ago</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Upcoming Events</CardTitle>
+            <CardDescription>Don't miss these important dates</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-sm font-medium">Grading Examination</p>
+                  <p className="text-xs text-gray-500">December 15, 2024</p>
+                </div>
+                <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">Important</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-sm font-medium">Tournament Training</p>
+                  <p className="text-xs text-gray-500">December 20, 2024</p>
+                </div>
+                <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Training</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-sm font-medium">Holiday Break</p>
+                  <p className="text-xs text-gray-500">December 25-31, 2024</p>
+                </div>
+                <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">Break</span>
+              </div>
             </div>
           </CardContent>
         </Card>
       </div>
-=======
-    } else {
-      router.push("/signin")
-      return
-    }
-    setIsLoading(false)
-  }, [router])
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Taiga Dojo</h1>
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (!currentUser) {
-    return null
-  }
-
-  const isInstructor = currentUser.category === "instructor"
-
-  return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            {isInstructor ? t("dashboardTitle") : t("studentDashboardTitle")}
-          </h1>
-          <p className="text-muted-foreground">
-            {isInstructor ? t("dashboardSubtitle") : t("studentDashboardSubtitle")}
-          </p>
-        </div>
-      </div>
-
-      {isInstructor ? <InstructorDashboard /> : <StudentDashboard />}
->>>>>>> c9fe30550c3a62256f8582dada57c1b844eb0af0
     </div>
   )
 }
