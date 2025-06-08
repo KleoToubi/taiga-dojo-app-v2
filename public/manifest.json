@@ -1,5 +1,6 @@
 {
   "name": "Taiga Dojo",
+<<<<<<< HEAD
   "short_name": "Taiga Dojo",
   "description": "Kyokushin Karate School Management App",
   "start_url": "/",
@@ -15,8 +16,28 @@
     },
     {
       "src": "/icons/icon-512x512.png",
+=======
+  "short_name": "Taiga",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#c62828",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+>>>>>>> c9fe30550c3a62256f8582dada57c1b844eb0af0
       "sizes": "512x512",
       "type": "image/png"
     }
   ]
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> c9fe30550c3a62256f8582dada57c1b844eb0af0

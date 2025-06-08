@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
-import { Calendar, Home, Users, MessageSquare, Settings, LogOut, User, Bell, ClipboardCheck } from "lucide-react"
+import { Home, Users, Calendar, MessageSquare, Settings } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import { cn } from "@/lib/utils"
 
@@ -47,7 +47,7 @@ export function MobileNavigation() {
             href={item.path}
             className={cn(
               "flex flex-1 flex-col items-center justify-center text-muted-foreground",
-              isActive && "text-primary",
+              isActive && "text-primary"
             )}
           >
             <item.icon className="h-5 w-5" />
