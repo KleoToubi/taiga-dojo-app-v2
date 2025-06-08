@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
-import { Home, Users, Calendar, MessageSquareText, Settings } from "lucide-react"
+import { Home, Users, Calendar, MessageSquare /
+, Settings } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import { cn } from "@/lib/utils"
 
@@ -24,14 +25,16 @@ export function MobileNavigation() {
     { title: t("dashboard"), icon: Home, path: "/" },
     { title: t("students"), icon: Users, path: "/students" },
     { title: t("schedule"), icon: Calendar, path: "/schedule" },
-    { title: t("assistant"), icon: MessageSquareText, path: "/assistant" },
+    { title: t("assistant"), icon: MessageSquare /
+, path: "/assistant" },
     { title: t("settings"), icon: Settings, path: "/settings" },
   ]
 
   const studentMenuItems = [
     { title: t("myProgress"), icon: Home, path: "/" },
     { title: t("schedule"), icon: Calendar, path: "/schedule" },
-    { title: t("assistant"), icon: MessageSquareText, path: "/assistant" },
+    { title: t("assistant"), icon: MessageSquare /
+, path: "/assistant" },
     { title: t("settings"), icon: Settings, path: "/settings" },
   ]
 
