@@ -50,7 +50,7 @@ export default function SignInPage() {
         description: `Welcome back, ${student.name}!`,
       })
 
-      router.push("/")
+      router.push("/dashboard")
     } else {
       toast({
         title: "Invalid Student ID",
@@ -68,7 +68,7 @@ export default function SignInPage() {
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="relative w-20 h-20">
-              <Image src="/images/taiga-logo.png" alt="Taiga Dojo Logo" fill className="object-contain" />
+              <Image src="/images/taiga-logo.png" alt="Taiga Dojo Logo" width={80} height={80} />
             </div>
           </div>
           <CardTitle className="text-2xl">{t("companyName")}</CardTitle>

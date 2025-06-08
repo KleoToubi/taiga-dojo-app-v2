@@ -1,12 +1,12 @@
 "use client"
 
 import type React from "react"
-import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { MobileNavigation } from "@/components/mobile-navigation"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { SidebarProvider } from "@/components/ui/sidebar"
 
 export default function DashboardLayout({
   children,

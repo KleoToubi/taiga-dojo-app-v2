@@ -1,8 +1,4 @@
 "use client"
-import { SidebarProvider } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
-import { MobileNavigation } from "@/components/mobile-navigation"
-import { useIsMobile } from "@/hooks/use-mobile"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/ui/use-toast"
@@ -10,7 +6,7 @@ import { useLanguage } from "@/contexts/language-context"
 import { InstructorDashboard } from "@/components/instructor-dashboard"
 import { StudentDashboard } from "@/components/student-dashboard"
 
-function DashboardContent() {
+export default function Dashboard() {
   const [currentUser, setCurrentUser] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
@@ -60,23 +56,5 @@ function DashboardContent() {
 
       {isInstructor ? <InstructorDashboard /> : <StudentDashboard />}
     </div>
-  )
-}
-
-export default function Dashboard() {
-  const isMobile = useIsMobile()
-
-  return (
-    <SidebarProvider>
-      <div className="flex h-screen">
-        {!isMobile && <AppSidebar />}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <main className="flex-1 overflow-y-auto p-4 md:p-6 pb-20 md:pb-6">
-            <DashboardContent />
-          </main>
-          {isMobile && <MobileNavigation />}
-        </div>
-      </div>
-    </SidebarProvider>
   )
 }

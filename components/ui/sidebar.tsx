@@ -1,23 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { VariantProps, cva } from "class-variance-authority"
-import { PanelLeft } from "lucide-react"
-
-import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Separator } from "@/components/ui/separator"
-import { Sheet, SheetContent } from "@/components/ui/sheet"
-import { Skeleton } from "@/components/ui/skeleton"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -26,6 +10,118 @@ const SIDEBAR_WIDTH_MOBILE = "18rem"
 const SIDEBAR_WIDTH_ICON = "3rem"
 const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 
+const SidebarContext = React.createContext<{
+  expanded: boolean
+  setExpanded: React.Dispatch<React.SetStateAction<boolean>>
+  toggleExpanded: () => void
+}>({
+  expanded: true,
+  setExpanded: () => {},
+  toggleExpanded: () => {},
+})
+
+export function SidebarProvider({
+  children,
+  defaultExpanded = true,
+}: {
+  children: React.ReactNode
+  defaultExpanded?: boolean
+}) {
+  const [expanded, setExpanded] = React.useState(defaultExpanded)
+
+  const toggleExpanded = React.useCallback(() => {
+    setExpanded((prev) => !prev)
+  }, [])
+
+  return <SidebarContext.Provider value={{ expanded, setExpanded, toggleExpanded }}>{children}</SidebarContext.Provider>
+}
+
+export function useSidebar() {
+  const context = React.useContext(SidebarContext)
+  if (!context) {
+    throw new Error("useSidebar must be used within a SidebarProvider")
+  }
+  return context
+}
+
+export function Sidebar({ children, className }: { children: React.ReactNode; className?: string }) {
+  const { expanded } = useSidebar()
+
+  return (
+    <aside
+      className={cn(
+        "h-screen border-r bg-sidebar text-sidebar-foreground transition-all duration-300",
+        expanded ? "w-64" : "w-16",
+        className,
+      )}
+    >
+      <div className="flex h-full flex-col">{children}</div>
+    </aside>
+  )
+}
+
+export function SidebarHeader({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <div className={cn("flex-shrink-0", className)}>{children}</div>
+}
+
+export function SidebarContent({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <div className={cn("flex-1 overflow-auto", className)}>{children}</div>
+}
+
+export function SidebarFooter({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <div className={cn("flex-shrink-0", className)}>{children}</div>
+}
+
+export function SidebarMenu({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <nav className={cn("flex flex-col gap-1 p-2", className)}>{children}</nav>
+}
+
+export function SidebarMenuItem({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <div className={cn("", className)}>{children}</div>
+}
+
+export function SidebarMenuButton({
+  children,
+  className,
+  isActive,
+  tooltip,
+  asChild,
+  ...props
+}: {
+  children: React.ReactNode
+  className?: string
+  isActive?: boolean
+  tooltip?: string
+  asChild?: boolean
+} & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  const { expanded } = useSidebar()
+  const Comp = asChild ? React.Fragment : "button"
+
+  return (
+    <Comp
+      className={cn(
+        "group relative flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+        isActive
+          ? "bg-sidebar-accent text-sidebar-accent-foreground"
+          : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+      {tooltip && !expanded && (
+        <div className="absolute left-full top-1/2 ml-2 -translate-y-1/2 rounded-md bg-popover px-2 py-1 text-xs font-normal text-popover-foreground opacity-0 shadow-md transition-opacity group-hover:opacity-100">
+          {tooltip}
+        </div>
+      )}
+    </Comp>
+  )
+}
+
+export function SidebarSeparator({ className }: { className?: string }) {
+  return <div className={cn("mx-2 my-1 h-px bg-sidebar-border", className)} />
+}
+/*
 type SidebarContext = {
   state: "expanded" | "collapsed"
   open: boolean
@@ -221,7 +317,7 @@ const Sidebar = React.forwardRef<
         data-variant={variant}
         data-side={side}
       >
-        {/* This is what handles the sidebar gap on desktop */}
+        {/* This is what handles the sidebar gap on desktop }
         <div
           className={cn(
             "duration-200 relative h-svh w-[--sidebar-width] bg-transparent transition-[width] ease-linear",
@@ -460,7 +556,7 @@ const SidebarGroupAction = React.forwardRef<
       ref={ref}
       data-sidebar="group-action"
       className={cn(
-        "absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground outline-none ring-sidebar-ring transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+        "absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground outline-none ring-sidebar-ring transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 peer-hover/menu-button:text-sidebar-accent-foreground [&>svg]:size-4 [&>svg]:shrink-0",
         // Increases the hit area of the button on mobile.
         "after:absolute after:-inset-2 after:md:hidden",
         "group-data-[collapsible=icon]:hidden",
@@ -734,30 +830,4 @@ const SidebarMenuSubButton = React.forwardRef<
   )
 })
 SidebarMenuSubButton.displayName = "SidebarMenuSubButton"
-
-export {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupAction,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarInput,
-  SidebarInset,
-  SidebarMenu,
-  SidebarMenuAction,
-  SidebarMenuBadge,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSkeleton,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
-  SidebarProvider,
-  SidebarRail,
-  SidebarSeparator,
-  SidebarTrigger,
-  useSidebar,
-}
+*/
