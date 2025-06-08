@@ -2,9 +2,6 @@ lockfileVersion: '9.0'
 
 settings:
   autoInstallPeers: true
-<<<<<<< HEAD
-  excludeLinksFromLockfile: false
-=======
   excludeLinksFromLockfile: false
 
 importers:
@@ -7707,4 +7704,3 @@ snapshots:
   yaml@2.8.0: {}
 
   yocto-queue@0.1.0: {}
->>>>>>> c9fe30550c3a62256f8582dada57c1b844eb0af0
